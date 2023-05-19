@@ -15,15 +15,12 @@ public class destroyObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-    private void OnTriggerEnter(Collider collision)
-    {
         if (breakIt)
         {
             GameObject newObject = Instantiate(destroyed_version, transform.position, transform.rotation);
             Destroy(gameObject);
         }
     }
+
 
 }

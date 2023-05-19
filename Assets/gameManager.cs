@@ -10,8 +10,8 @@ using VibrationType = Thalmic.Myo.VibrationType;
 
 public class gameManager : MonoBehaviour
 {
-    public GameObject myo = null;
-
+    public GameObject myo = null, myo2 = null ;
+    public float explosionForce ;
 
     private TextMeshProUGUI fps;
     int fpsVal;
@@ -66,6 +66,10 @@ void Update()
     }
     public void firstSpellL()
     {
+        ThalmicMyo thalmicMyo2 = myo2.GetComponent<ThalmicMyo>();
+        thalmicMyo2.Vibrate(VibrationType.Long);
+        ExtendUnlockAndNotifyUserAction(thalmicMyo2);
+
         isLThunderActive = true;
         thunderL.SetActive(true);
     }
@@ -92,11 +96,17 @@ void Update()
             {
                 // get the coords where the ray hit
                 Vector3 hitPoint = hit.point;
-                
+            //checks if the collided object is destroyable, if so, activate the script destroyobject
+                if(hit.collider.gameObject.tag == "Destroyable")
+            {
+                hit.collider.gameObject.GetComponent<destroyObject>().breakIt = true;
+            }
                 // displace the lightning end at the place of the collision
                 lightningREnd.transform.position = hitPoint;
-            }
-            else
+                ExplodeAtLightningsEnd(hit);
+
+        }
+        else
             {
                 lightningREnd.transform.position = thehandR.transform.position + -thehandR.transform.right*50;
             }
@@ -114,9 +124,16 @@ void Update()
         {
             // get the coords where the ray hit
             Vector3 hitPoint = hit.point;
-
+            //checks if the collided object is destroyable, if so, activate the script destroyobject
+            if (hit.collider.gameObject.tag == "Destroyable")
+            {
+                hit.collider.gameObject.GetComponent<destroyObject>().breakIt = true;
+            }
             // displace the lightning end at the place of the collision
             lightningLEnd.transform.position = hitPoint;
+            ExplodeAtLightningsEnd(hit);
+
+
         }
         else
         {
@@ -132,5 +149,20 @@ void Update()
         }
 
         myo.NotifyUserAction ();
+    }
+    void ExplodeAtLightningsEnd(RaycastHit hit)
+    {
+        Vector3 hitPoint = hit.point;
+        Collider[] colliders = Physics.OverlapSphere(hit.transform.position, 1f);
+
+        foreach (Collider collider in colliders)
+        {
+            Rigidbody rb = collider.GetComponent<Rigidbody>();
+
+            if (rb != null)
+            {
+                rb.AddExplosionForce(explosionForce, hit.transform.position, 8f);
+            }
+        }
     }
 }
