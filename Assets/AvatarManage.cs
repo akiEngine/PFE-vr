@@ -7,15 +7,14 @@
 
 
 using System.Collections.Generic;
-using System.Numerics;
+//using System.Numerics;
 using UnityEngine;
-
 namespace NuitrackSDK.Tutorials.FirstProject
 {
     public class AvatarManage : MonoBehaviour
     {
         string message = "";
-
+        int averageNumber = 4;
         public nuitrack.JointType[] typeJoint;
         public GameObject[] CreatedJoint;
         public GameObject PrefabJoint;
@@ -34,6 +33,7 @@ namespace NuitrackSDK.Tutorials.FirstProject
         }
         void Update()
         {
+
             if (NuitrackManager.Users.Current != null && NuitrackManager.Users.Current.Skeleton != null)
             {
                 message = "Skeleton found";
@@ -44,12 +44,11 @@ namespace NuitrackSDK.Tutorials.FirstProject
                     
                     averageArray[q]+=(joint.Position);
                     iterator++;
-                    if (iterator == 3)
+                    if (iterator == averageNumber)
                     {
                         CreatedJoint[q].transform.localPosition = averageArray[q]/iterator;
                         iterator=0;
-
-
+                        averageArray[q] = new Vector3(0f,0f,0f);
                     }
                 }
             }
