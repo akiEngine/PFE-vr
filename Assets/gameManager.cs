@@ -86,7 +86,7 @@ void Update()
     void updateRThunderPosition()
     {
 
-            GameObject thehandR = GameObject.Find("HandGrabInteractorRight");
+            GameObject thehandR = GameObject.Find("OculusHand_R");
             Debug.Log("oui");
             Vector3 offset = -thehandR.transform.right*.1f; //make an offset for the starting point and the raycast so it doesn't hit the hand collider
             lightningRStart.transform.position = thehandR.transform.position+ offset;
@@ -115,7 +115,7 @@ void Update()
     void updateLThunderPosition()
     {
 
-        GameObject thehandL = GameObject.Find("HandGrabInteractorLeft");
+        GameObject thehandL = GameObject.Find("OculusHand_L");
         Vector3 offset = thehandL.transform.right * .1f; //make an offset for the starting point and the raycast so it doesn't hit the hand collider
         lightningLStart.transform.position = thehandL.transform.position + offset;
         Ray ray = new Ray(thehandL.transform.position + offset, thehandL.transform.right);

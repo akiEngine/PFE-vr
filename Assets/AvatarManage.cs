@@ -14,11 +14,11 @@ namespace NuitrackSDK.Tutorials.FirstProject
     public class AvatarManage : MonoBehaviour
     {
         string message = "";
-        int averageNumber = 4;
+        int averageNumber = 2;
         public nuitrack.JointType[] typeJoint;
         public GameObject[] CreatedJoint;
         public GameObject PrefabJoint;
-        List<UnityEngine.Vector3> averageArray;
+        public List<UnityEngine.Vector3> averageArray;
         int iterator; // to count how many vectors are added then make the average
         void Start()
         {
@@ -37,20 +37,19 @@ namespace NuitrackSDK.Tutorials.FirstProject
             if (NuitrackManager.Users.Current != null && NuitrackManager.Users.Current.Skeleton != null)
             {
                 message = "Skeleton found";
-
+                iterator++;
                 for (int q = 0; q < typeJoint.Length; q++)
                 {
                     UserData.SkeletonData.Joint joint = NuitrackManager.Users.Current.Skeleton.GetJoint(typeJoint[q]);
-                    
                     averageArray[q]+=(joint.Position);
-                    iterator++;
+                    
                     if (iterator == averageNumber)
                     {
                         CreatedJoint[q].transform.localPosition = averageArray[q]/iterator;
-                        iterator=0;
                         averageArray[q] = new Vector3(0f,0f,0f);
                     }
                 }
+                if (iterator == averageNumber) iterator = 0;
             }
             else
             {
