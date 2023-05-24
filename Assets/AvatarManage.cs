@@ -14,7 +14,7 @@ namespace NuitrackSDK.Tutorials.FirstProject
     public class AvatarManage : MonoBehaviour
     {
         string message = "";
-        int averageNumber = 2;
+        int averageNumber = 4;
         public nuitrack.JointType[] typeJoint;
         public GameObject[] CreatedJoint;
         public GameObject PrefabJoint;
